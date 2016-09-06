@@ -3,14 +3,16 @@ A simple library to find palindromes.
 
 ##Usage
 
-Palindrome Finder has one smiple method:
+Palindrome Finder has one simple method:
 
 ```C#
 isPalindrome(string stringToCheck, string charctersToIgnore)
 ```
-All you have to do is pass the string you want to check and then another string containing all of the symbols you want to ignore. (**i.e** question marks, exclimations, and etc.)
+All you have to do is pass the string you want to check and then another string containing all of the symbols you want to ignore. (**i.e** question marks, exclamation marks, and etc.)
 
 The method simply returns true or false.
+
+The library automatically ignores white spaces.
 
 ##Example
 
