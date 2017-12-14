@@ -12,29 +12,13 @@ namespace PalindromeFinder
             if (String.IsNullOrEmpty(input))
                 return false;
 
-            string lower = input.ToLowerInvariant();
+            string lower = Sanitize(input).ToLowerInvariant();
 
-            if(IsStringDirty(lower))
-                lower = Santize(lower);
-
-            return CheckForPalindrome(lower);
-        }
-
-        private bool IsStringDirty(string input)
-        {
-            if (Regex.IsMatch(input, @"\W|\d"))
-                return true;
-
-            return false;
-        }
-
-        private string Santize(string input) => Regex.Replace(input, @"\W|\d", "");
-
-        private bool CheckForPalindrome(string input)
-        {
-            return input.Zip(input.Reverse(), Tuple.Create)
-            .Take(Convert.ToInt16(Math.Ceiling(input.Length / 2.0)))
+            return lower.Zip(lower.Reverse(), Tuple.Create)
+            .Take((int)Math.Ceiling(lower.Length / 2.0))
             .All(x => x.Item1 == x.Item2);
         }
+
+        private string Sanitize(string input) => Regex.Replace(input, @"\W|\d", "");
     }
 }
