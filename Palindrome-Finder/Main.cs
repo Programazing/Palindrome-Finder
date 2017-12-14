@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace PalindromeFinder
@@ -8,68 +9,18 @@ namespace PalindromeFinder
     {
         public bool IsPalindrome(string input)
         {
-            input = input.ToLower();
+            if (String.IsNullOrEmpty(input))
+                return false;
 
-            if(Regex.IsMatch(input, @"\W|\d"))
-            {
-                input = Regex.Replace(input, @"\W|\d", "");
-            }
+            string lower = input.ToLowerInvariant();
 
-            int min = 0;
-            int max = input.Length - 1;
+            if(IsStringDirty(lower))
+                lower = Santize(lower);
 
-            while (true)
-            {
-                if (min > max)
-                {
-                    return true;
-                }
-
-                char a = input[min];
-                char b = input[max];
-                if (a != b)
-                {
-                    return false;
-                }
-                min++;
-                max--;
-            }
+            return CheckForPalindrome(lower);
         }
 
-        public bool IsPalindrome(IEnumerable<string> input)
-        {
-            foreach (string entry in input)
-            {
-                string modifiableEntry = entry;
-
-                if (IsStringDirty(modifiableEntry))
-                    modifiableEntry = StringSanitizer(entry);
-
-                int min = 0;
-                int max = modifiableEntry.Length - 1;
-
-                while (true)
-                {
-                    if (min > max)
-                    {
-                        return true;
-                    }
-
-                    char a = modifiableEntry[min];
-                    char b = modifiableEntry[max];
-                    if (char.ToLower(a) != char.ToLower(b))
-                    {
-                        return false;
-                    }
-                    min++;
-                    max--;
-                }
-            }
-
-            return true;
-        }
-
-        internal bool IsStringDirty(string input)
+        private bool IsStringDirty(string input)
         {
             if (Regex.IsMatch(input, @"\W|\d"))
                 return true;
@@ -77,6 +28,13 @@ namespace PalindromeFinder
             return false;
         }
 
-        internal string StringSanitizer(string input) => Regex.Replace(input, @"\W|\d", "");
+        private string Santize(string input) => Regex.Replace(input, @"\W|\d", "");
+
+        private bool CheckForPalindrome(string input)
+        {
+            return input.Zip(input.Reverse(), Tuple.Create)
+            .Take(Convert.ToInt16(Math.Ceiling(input.Length / 2.0)))
+            .All(x => x.Item1 == x.Item2);
+        }
     }
 }

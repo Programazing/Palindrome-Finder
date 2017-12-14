@@ -24,7 +24,7 @@ namespace PalindromeFinder.Tests
         [InlineData("Live on time, emit no evil.", true)]
         public void IsPalindrome_WhenGivenAPalindromeSentence_ReturnsTrue(string input, bool expected)
         {
-            var sut = findPalindrome.IsPalindrome(input);
+            bool sut = findPalindrome.IsPalindrome(input);
 
             Assert.Equal(expected, sut);
         }
@@ -37,25 +37,25 @@ namespace PalindromeFinder.Tests
         [InlineData("Live on time, die on time.", false)]
         public void IsPalindrome_WhenGivenANonPalindromeSentence_ReturnsFalse(string input, bool expected)
         {
-            var sut = findPalindrome.IsPalindrome(input);
+            bool sut = findPalindrome.IsPalindrome(input);
 
             Assert.Equal(expected, sut);
         }
 
         [Theory]
         [InlineData(new string[] { "Mr. Owl ate my metal worm.", "Rats live on no evil star", "Live on time, emit no evil." }, true)]
-        public void IsPalindrome_WhenGivenAListOfPalindromeSentences_ReturnsTrue(string[] input, bool expected)
+        public void IsPalindrome_WhenUsedToCheckAListOfPalindromeSentences_ReturnsTrue(string[] input, bool expected)
         {
-            var sut = findPalindrome.IsPalindrome(input);
+            bool sut = input.All(findPalindrome.IsPalindrome);
 
             Assert.Equal(expected, sut);
         }
 
         [Theory]
         [InlineData(new string[] { "Mr. Owl ate my metal worms.", "Rats live on an evil star", "Live on time, die on time." }, false)]
-        public void IsPalindrome_WhenGivenAListOfNonPalindromeSentences_ReturnsFalse(string[] input, bool expected)
+        public void IsPalindrome_WhenUsedToCheckAListOfNonPalindromeSentences_ReturnsFalse(string[] input, bool expected)
         {
-            var sut = findPalindrome.IsPalindrome(input);
+            bool sut = input.All(findPalindrome.IsPalindrome);
 
             Assert.Equal(expected, sut);
         }
