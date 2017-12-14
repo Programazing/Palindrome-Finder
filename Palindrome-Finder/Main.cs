@@ -6,12 +6,17 @@ namespace PalindromeFinder
 {
     public class FindPalindrome
     {
-        public bool IsPalindrome(string wordToCheck)
+        public bool IsPalindrome(string input)
         {
-            wordToCheck = wordToCheck.ToLower();
+            input = input.ToLower();
+
+            if(Regex.IsMatch(input, @"\W|\d"))
+            {
+                input = Regex.Replace(input, @"\W|\d", "");
+            }
 
             int min = 0;
-            int max = wordToCheck.Length - 1;
+            int max = input.Length - 1;
 
             while (true)
             {
@@ -20,8 +25,8 @@ namespace PalindromeFinder
                     return true;
                 }
 
-                char a = wordToCheck[min];
-                char b = wordToCheck[max];
+                char a = input[min];
+                char b = input[max];
                 if (a != b)
                 {
                     return false;
@@ -33,10 +38,15 @@ namespace PalindromeFinder
 
         public bool IsPalindrome(IEnumerable<string> input)
         {
-            foreach (string word in input)
+            foreach (string entry in input)
             {
+                string modifiableEntry = entry;
+
+                if (IsStringDirty(modifiableEntry))
+                    modifiableEntry = StringSanitizer(entry);
+
                 int min = 0;
-                int max = word.Length - 1;
+                int max = modifiableEntry.Length - 1;
 
                 while (true)
                 {
@@ -45,8 +55,8 @@ namespace PalindromeFinder
                         return true;
                     }
 
-                    char a = word[min];
-                    char b = word[max];
+                    char a = modifiableEntry[min];
+                    char b = modifiableEntry[max];
                     if (char.ToLower(a) != char.ToLower(b))
                     {
                         return false;
@@ -58,5 +68,15 @@ namespace PalindromeFinder
 
             return true;
         }
+
+        internal bool IsStringDirty(string input)
+        {
+            if (Regex.IsMatch(input, @"\W|\d"))
+                return true;
+
+            return false;
+        }
+
+        internal string StringSanitizer(string input) => Regex.Replace(input, @"\W|\d", "");
     }
 }
