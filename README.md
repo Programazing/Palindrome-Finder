@@ -1,5 +1,4 @@
 # Palindrome Finder
-A simple library to find palindromes.
+![](https://img.shields.io/badge/Status-Inactive-critical.svg)
 
-## Status:
-Active. Currently being refactored.
+A simple library to find palindromes.
